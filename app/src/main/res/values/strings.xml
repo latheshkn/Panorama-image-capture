@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">PanoramaKotlin</string>
+    <string name="instruction_tap_start">Tap to start</string>
+    <string name="instruction_hold_vertically">Hold your device vertically</string>
+    <string name="instruction_focusing">Focusing</string>
+    <string name="instruction_first_shot">Rotate left or right or tap to restart</string>
+    <string name="instruction_finish_right">Tap to finish when ready or continue rotating right</string>
+    <string name="instruction_finish_left">Tap to finish when ready or continue rotating left</string>
+    <string name="instruction_empty" />
+    <string name="text_saving">Saving</string>
+    <string name="empty"></string>
+    <string name="info_step1">Hold the device vertically and tap the screen to take first picture</string>
+    <string name="info_step2">Turn the device until yin &amp; yang symbols meet, next picture is taken automatically</string>
+    <string name="info_step3">When done, tap the screen or hold the device in landscape mode</string>
+    <string name="compass_interference_msg">Compass interference detected.\nPlease wave your device in a figure 8 pattern</string>
+    <string name="empty_folder_msg">Panoramas folder is empty</string>
+    <string name="warning">Warning!!!</string>
+    <string name="camera_error_msg">Cannot Access Camera, the application will close now.</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="screen_error_msg">Screen resolution is not supported, the application will close now.</string>
+    <string name="discard_quest">Are you sure ?</string>
+    <string name="discard_conf">Discard and Delete</string>
+    <string name="check_faq">Check the FAQ</string>
+
+    <string name="wb">White Balance</string>
+    <string name="wb_locked_start">Locked On Start</string>
+    <string name="wb_auto">Auto</string>
+    <string name="wb_cloudy_daylight">Cloudy Daylight</string>
+    <string name="wb_daylight">Daylight</string>
+    <string name="wb_fluorescent">Fluorescent</string>
+    <string name="wb_incandescent">Incandescent</string>
+
+    <string name="exp">Exposure</string>
+    <string name="exp_auto">Auto</string>
+    <string name="exp_locked">Locked</string>
+    <string name="exp_locked_start">Locked On Start</string>
+    <string name="exp_hdr">HDR</string>
+
+    <string name="flash_off">Off</string>
+    <string name="flash_on">On</string>
+    <string name="flash_auto">Auto</string>
+    <string name="flash_torch">Torch</string>
+
+    <string name="ce">Color Effects</string>
+
+    <string name="memory_full_dialog_text">"Memory full! Please delete some files to save the panorama."</string>
+    <string name="sdcard_error_dialog_text">"USB storage unavailable! Panorama can't be saved."</string>
+    <string name="context_menu_open">Open</string>
+    <string name="context_menu_delete">Delete</string>
+    <string name="popup_creating_title">Generating thumbnails&#8230;</string>
+    <string name="toast_preparation_done">Generation done!</string>
+    <string name="popup_loading">Loading&#8230;</string>
+    <string name="popup_deleting">Deleting&#8230;</string>
+    <string name="delete_conf">Delete</string>
+    <string name="deleted_msg">Panorama deleted</string>
+
+    <string name="hold_the_device_vertically">Hold your device vertically</string>
+    <string name="rotate_left_or_right_or_tap_to_restart">Rotate left or right or tap to restart</string>
+    <string name="tap_to_finish_when_ready_or_continue_rotating">Tap to finish when ready or continue rotating</string>
+    <string name="tap_anywhere_to_start">Tap anywhere to start</string>
+
+
+</resources>
