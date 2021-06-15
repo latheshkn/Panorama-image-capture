@@ -34,7 +34,7 @@ import com.nativesystem.Core
 import java.io.File
 import java.util.*
 
-class MainActivity : Activity(){
+class MainActivity : Activity() {
 
     val MY_PERMISSIONS_REQUEST_LOCATION = 1
     val MY_PERMISSIONS_REQUEST_CAMERA = 2
@@ -72,11 +72,12 @@ class MainActivity : Activity(){
     private var mIsCameraReady = false
     private var mNumberTakenImages = 0
     private var mPanoramaPath: String? = null
-    var activityW :Float?=null
-    var activityH :Float?=null
+    var activityW: Float? = null
+    var activityH: Float? = null
     var circle: ImageView? = null
     var isRequestExit = false
     private var mEquiPath = ""
+
     internal enum class fisheye {
         none
     }
@@ -92,6 +93,7 @@ class MainActivity : Activity(){
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
 
+
         requestWindowFeature(Window.FEATURE_NO_TITLE)
 
         window.setFlags(
@@ -102,14 +104,6 @@ class MainActivity : Activity(){
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
 
             if ((ActivityCompat.checkSelfPermission(
-                    applicationContext,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED) &&
-                (ActivityCompat.checkSelfPermission(
-                    applicationContext,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED) &&
-                (ActivityCompat.checkSelfPermission(
                     applicationContext,
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_GRANTED) &&
@@ -153,25 +147,9 @@ class MainActivity : Activity(){
                     MY_PERMISSIONS_REQUEST_STORAGE
                 )
                 return
-            } else if (ActivityCompat.checkSelfPermission(
-                    applicationContext,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
-                    applicationContext,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-
-                requestPermissions(
-                    arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    ),
-                    MY_PERMISSIONS_REQUEST_STORAGE
-                )
-                return
             }
         }
+
 
     }
 
@@ -537,6 +515,7 @@ class MainActivity : Activity(){
             if (!mIsShootingStarted) {
                 mNumberTakenImages = 0
                 mPanoramaPath = Environment.getExternalStorageDirectory().toString() + "/Lib_Test/"
+                Log.d("check_the_path", "path $mPanoramaPath")
                 mIsShootingStarted = mDMDCapture!!.startShooting(mPanoramaPath)
                 if (mIsShootingStarted) {
                     imgRotMode!!.visibility = View.INVISIBLE
@@ -572,58 +551,58 @@ class MainActivity : Activity(){
 
         runOnUiThread(Runnable {
 
-           run {
-               val dim = IntArray(2)
+            run {
+                val dim = IntArray(2)
 
-               viewGroup!!.getLocationInWindow(dim)
-               Log.e("rmh", "dim:" + dim[0] + " " + dim[1])
-               val dim2 = IntArray(2)
-               viewGroup!!.getLocationOnScreen(dim2)
-               activityW = viewGroup!!.width.toFloat()
-               activityH = viewGroup!!.height.toFloat()
-               var marginLeft: Int
-               var marginRight: Int
-               var marginTop: Int
-               var marginBottom: Int
-               var circlediameter: Float
-               var circleValues: FloatArray
+                viewGroup!!.getLocationInWindow(dim)
+                Log.e("rmh", "dim:" + dim[0] + " " + dim[1])
+                val dim2 = IntArray(2)
+                viewGroup!!.getLocationOnScreen(dim2)
+                activityW = viewGroup!!.width.toFloat()
+                activityH = viewGroup!!.height.toFloat()
+                var marginLeft: Int
+                var marginRight: Int
+                var marginTop: Int
+                var marginBottom: Int
+                var circlediameter: Float
+                var circleValues: FloatArray
 
-               circleValues = Core.getCircleData(activityW!!, activityH!!, 0, dim[0], FL)
+                circleValues = Core.getCircleData(activityW!!, activityH!!, 0, dim[0], FL)
 
-               marginTop = Math.round(circleValues[0] + dim[1])
-               marginRight = Math.round(circleValues[1])
-               marginBottom = Math.round(circleValues[2])
-               marginLeft = Math.round(circleValues[3])
-               circlediameter = circleValues[4]
+                marginTop = Math.round(circleValues[0] + dim[1])
+                marginRight = Math.round(circleValues[1])
+                marginBottom = Math.round(circleValues[2])
+                marginLeft = Math.round(circleValues[3])
+                circlediameter = circleValues[4]
 
-               Log.e(
-                   "rmh",
-                   "mars: $marginLeft $marginRight $marginTop $marginBottom"
-               )
-               //circle
-               circle?.setImageResource(resId)
+                Log.e(
+                    "rmh",
+                    "mars: $marginLeft $marginRight $marginTop $marginBottom"
+                )
+                //circle
+                circle?.setImageResource(resId)
 
-               val lp = RelativeLayout.LayoutParams(
-                   RelativeLayout.LayoutParams.WRAP_CONTENT,
-                   RelativeLayout.LayoutParams.WRAP_CONTENT
-               )
-               lp.leftMargin = -marginLeft //-margin; -marginLeft;
+                val lp = RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT
+                )
+                lp.leftMargin = -marginLeft //-margin; -marginLeft;
 
-               lp.rightMargin = -marginRight //-margin; -marginRight;
+                lp.rightMargin = -marginRight //-margin; -marginRight;
 
-               lp.topMargin = marginTop
-               lp.bottomMargin = -marginBottom
-               lp.width = Math.round(circlediameter)
-               lp.height = Math.round(circlediameter)
-               circle?.setLayoutParams(lp)
-               circle?.setVisibility(View.VISIBLE)
-           }
+                lp.topMargin = marginTop
+                lp.bottomMargin = -marginBottom
+                lp.width = Math.round(circlediameter)
+                lp.height = Math.round(circlediameter)
+                circle?.setLayoutParams(lp)
+                circle?.setVisibility(View.VISIBLE)
+            }
         })
     }
 
     var imgName: String? = null
     private val mIsOpenGallery = false
-    var folderName = "Panoramas"
+    var folderName = "Apanoramas"
     private val mCallbackInterface: CallbackInterfaceShooter = object : CallbackInterfaceShooter {
         override fun onCameraStopped() {
             mIsShootingStarted = false
@@ -711,9 +690,11 @@ class MainActivity : Activity(){
         override fun takingPhoto() {
 
         }
+
         override fun shotTakenPreviewReady(bitmapPreview: Bitmap) {
 
         }
+
         override fun photoTaken() {
             Log.e("rmh", "photoTaken")
             val map = mDMDCapture!!.indicators
@@ -781,6 +762,7 @@ class MainActivity : Activity(){
         }
 
         override fun onFinishGeneratingEqui() {
+            deleteTempFolder()
             Log.e("rmh", "onFinishGeneratingEqui")
             mIsShootingStarted = false
             mDMDCapture!!.startCamera(applicationContext, mWidth, mHeight)
@@ -794,10 +776,11 @@ class MainActivity : Activity(){
             imgRotMode!!.visibility = View.VISIBLE
             txtLensName!!.visibility = View.VISIBLE
 
-            val pathe = File(Environment.getExternalStorageDirectory().path + "/" + getString(R.string.app_name))
-            Log.e("rmh", "stitching completed $pathe")
+//            val pathe = File(Environment.getExternalStorageDirectory().name + "/PanoramaKotlin")
+//            if (pathe.exists()){
+//                pathe.delete()
+//            }
 
-            pathe.deleteOnExit()
         }
 
         override fun onExposureChanged(mode: DMD_Capture.ExposureMode) {
@@ -823,27 +806,26 @@ class MainActivity : Activity(){
         override fun onFinishedRotating() {}
     }
 
-  override  fun onRequestPermissionsResult(
-      requestCode: Int,
-      vararg permissions: String?,
-      grantResults: IntArray
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        vararg permissions: String?,
+        grantResults: IntArray
     ) {
-      super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-      Log.e("rmh", "onRequestPermissionsResult main")
+        Log.e("rmh", "onRequestPermissionsResult main")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             when (requestCode) {
                 MY_PERMISSIONS_REQUEST_CAMERA -> {
-                    Log.e("rmh", "MY_PERMISSIONS_REQUEST_CAMERA")
-                    // If request is cancelled, the result arrays are empty.
+                    Log.e("rmh", "MY_PERMISSIONS_REQUEST_CAMERA");
                     if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         if (ActivityCompat.checkSelfPermission(
                                 this,
-                                Manifest.permission.READ_EXTERNAL_STORAGE
-                            ) !=PackageManager.PERMISSION_GRANTED ||
+                                android.Manifest.permission.READ_EXTERNAL_STORAGE
+                            ) != PackageManager.PERMISSION_GRANTED ||
                             ActivityCompat.checkSelfPermission(
                                 this,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
                             ) != PackageManager.PERMISSION_GRANTED
                         ) {
                             ActivityCompat.requestPermissions(
@@ -851,143 +833,53 @@ class MainActivity : Activity(){
                                 arrayOf(
                                     Manifest.permission.READ_EXTERNAL_STORAGE,
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                ),
-                                MY_PERMISSIONS_REQUEST_STORAGE
-                            )
-                            return
-                        } else if (ActivityCompat.checkSelfPermission(
+                                ), MY_PERMISSIONS_REQUEST_STORAGE
+                            );
+                            return;
+                        } else
+                            validateBluetooth();
+                    } else {
+                        toastMessage("Camera, Storage and Location permissions are not optional!");
+
+                    }
+                    return;
+
+                }
+                MY_PERMISSIONS_REQUEST_STORAGE -> {
+                    Log.e("rmh", "MY_PERMISSIONS_REQUEST_STORAGE");
+                    if (grantResults.size > 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.checkSelfPermission(
                                 this,
-                                Manifest.permission.ACCESS_FINE_LOCATION
-                            ) != PackageManager.PERMISSION_GRANTED ||
-                            ActivityCompat.checkSelfPermission(
-                                this,
-                                Manifest.permission.ACCESS_COARSE_LOCATION
+                                android.Manifest.permission.CAMERA
                             ) != PackageManager.PERMISSION_GRANTED
                         ) {
                             ActivityCompat.requestPermissions(
                                 this,
                                 arrayOf(
-                                    Manifest.permission.ACCESS_FINE_LOCATION,
-                                    Manifest.permission.ACCESS_COARSE_LOCATION
-                                ),
-                                MY_PERMISSIONS_REQUEST_LOCATION
-                            )
-                            return
-                        } else validateBluetooth()
-                    } else {
-                        toastMessage("Camera, Storage and Location permissions are not optional!")
-                        finish()
-                    }
-                    return
-                }
-              MY_PERMISSIONS_REQUEST_STORAGE -> {
-                    run {
-                        Log.e("rmh", "MY_PERMISSIONS_REQUEST_STORAGE")
-                        if (grantResults.size > 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED
-                        ) {
-                            if (ActivityCompat.checkSelfPermission(
-                                    this,
+
                                     Manifest.permission.CAMERA
-                                ) == PackageManager.PERMISSION_GRANTED
-                            ) {
-                                if (ActivityCompat.checkSelfPermission(
-                                        this,
-                                        Manifest.permission.ACCESS_FINE_LOCATION
-                                    ) != PackageManager.PERMISSION_GRANTED ||
-                                    ActivityCompat.checkSelfPermission(
-                                        this,
-                                        Manifest.permission.ACCESS_COARSE_LOCATION
-                                    ) != PackageManager.PERMISSION_GRANTED
-                                ) {
-                                    ActivityCompat.requestPermissions(
-                                        this,
-                                        arrayOf(
-                                            Manifest.permission.ACCESS_FINE_LOCATION,
-                                            Manifest.permission.ACCESS_COARSE_LOCATION
-                                        ),
-                                        MY_PERMISSIONS_REQUEST_LOCATION
-                                    )
-                                    return
-                                }
-                                validateBluetooth()
-                            } else {
-                                toastMessage("Camera, Storage and Location permissions are not optional!")
-                                finish()
-                                return
-                            }
+                                ), MY_PERMISSIONS_REQUEST_CAMERA
+                            );
+                            return;
+
                         } else {
-                            toastMessage("Camera, Storage and Location permissions are not optional!")
-                            finish()
-                            return
+                            validateBluetooth();
+                            toastMessage("Camera, Storage and Location permissions are not optional!");
+                            return;
                         }
-                    }
-                    run {
-                        Log.e("rmh", "MY_PERMISSIONS_REQUEST_LOCATION")
-                        if (grantResults.size > 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED
-                        ) {
-                            if (ActivityCompat.checkSelfPermission(
-                                    this,
-                                    Manifest.permission.CAMERA
-                                ) != PackageManager.PERMISSION_GRANTED
-                            ) {
-                                toastMessage("Camera, Storage and Location permissions are not optional!")
-                                finish()
-                                return
-                            } else if (ActivityCompat.checkSelfPermission(
-                                    this,
-                                    Manifest.permission.READ_EXTERNAL_STORAGE
-                                ) != PackageManager.PERMISSION_GRANTED ||
-                                ActivityCompat.checkSelfPermission(
-                                    this,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                ) != PackageManager.PERMISSION_GRANTED
-                            ) {
-                                toastMessage("Camera, Storage and Location permissions are not optional!")
-                                finish()
-                                return
-                            }
-                            validateBluetooth()
-                        } else {
-                            toastMessage("Camera, Storage and Location permissions are not optional!")
-                            finish()
-                            return
-                        }
-                    }
-                }
-                 MY_PERMISSIONS_REQUEST_LOCATION -> {
-                    Log.e("rmh", "MY_PERMISSIONS_REQUEST_LOCATION")
-                    if (grantResults.size > 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                        if (ActivityCompat.checkSelfPermission(
-                                this,
-                                Manifest.permission.CAMERA
-                            ) != PackageManager.PERMISSION_GRANTED
-                        ) {
-                            toastMessage("Camera, Storage and Location permissions are not optional!")
-                            finish()
-                            return
-                        } else if (ActivityCompat.checkSelfPermission(
-                                this,
-                                Manifest.permission.READ_EXTERNAL_STORAGE
-                            ) != PackageManager.PERMISSION_GRANTED ||
-                            ActivityCompat.checkSelfPermission(
-                                this,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE
-                            ) != PackageManager.PERMISSION_GRANTED
-                        ) {
-                            toastMessage("Camera, Storage and Location permissions are not optional!")
-                            finish()
-                            return
-                        }
-                        validateBluetooth()
                     } else {
-                        toastMessage("Camera, Storage and Location permissions are not optional!")
-                        finish()
-                        return
+                        toastMessage("Camera, Storage and Location permissions are not optional!");
+
+                        return;
                     }
+
                 }
+
             }
+
         }
     }
+
 
     private fun toastMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -1019,6 +911,19 @@ class MainActivity : Activity(){
             isRequestViewer = false
             mDMDCapture!!.releaseShooter()
             //super.onBackPressed();
+        }
+    }
+
+    private fun deleteTempFolder() {
+        val myDir = File(
+            Environment.getExternalStorageDirectory().toString() + "/" + "Pictures/PanoramaKotlin"
+        )
+        if (myDir.isDirectory) {
+            val children = myDir.list()
+            for (i in children.indices) {
+                File(myDir, children[i]).delete()
+            }
+            myDir.delete()
         }
     }
 
